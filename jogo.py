@@ -1,7 +1,6 @@
 import pygame
-import adereços
 import time
-
+import random
 pygame.init()
 pygameDisplay = pygame.display
 pygameDisplay.set_caption("Jogo da Maça")
@@ -12,10 +11,9 @@ gameDisplay = pygame.display.set_mode(tamanho)
 clock = pygame.time.Clock()
 gameEvents = pygame.event
 branco = (255,255,255)
-fundo = pygame.image.load("adedeços/fundo.jpg")
-cesto = pygame.image.load("adedeços/cesto.jpg")
-maça = pygame.image.load("adedeços/maça.jpg")
-
+fundo = pygame.image.load("assets/fundo.jpg")
+cesto = pygame.image.load("assets/cesto.jpg")
+maça = pygame.image.load("assets/maça.jpg")
 
 
 
@@ -52,6 +50,10 @@ def jogar():
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(-1)
 
+    missileSound = pygame.mixer.Sound("assets/missile.wav")
+    missileSound.set_volume(1)
+    pygame.mixer.Sound.play(missileSound)
+
     explosaoSound = pygame.mixer.Sound("assets/explosao.wav")
     explosaoSound.set_volume(1)
     while True:
@@ -79,7 +81,7 @@ def jogar():
             else:
                 posicaoMaçaY =posicaoMaçaY + velocidadeMaça
 
-            if X + movimentoCestoX >0 and cestoX + movimentoCestoX< largura-larguraCesto:
+            if cestoX + movimentoCestoX >0 and cestoX + movimentoCestoX< largura-larguraCesto:
                 cestoX = cestoX + movimentoCestoX
             gameDisplay.fill(branco)
             gameDisplay.blit(fundo,(0,0))
