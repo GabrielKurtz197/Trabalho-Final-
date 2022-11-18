@@ -1,7 +1,6 @@
 import pygame
-import random
-import time
 import adereços
+import time
 
 pygame.init()
 pygameDisplay = pygame.display
@@ -16,6 +15,7 @@ branco = (255,255,255)
 fundo = pygame.image.load("adedeços/fundo.jpg")
 cesto = pygame.image.load("adedeços/cesto.jpg")
 maça = pygame.image.load("adedeços/maça.jpg")
+
 
 
 
@@ -51,3 +51,61 @@ def jogar():
     pygame.mixer.music.load("assets/ironSound.mp3")
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(-1)
+
+    explosaoSound = pygame.mixer.Sound("assets/explosao.wav")
+    explosaoSound.set_volume(1)
+    while True:
+        for event in gameEvents.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    movimentoCestoX = -15
+                elif event.key == pygame.K_RIGHT:
+                    movimentoCestoX = 15
+                elif event.key == pygame.K_RETURN:
+                    jogar()
+            elif event.type == pygame.KEYUP:
+                movimentoCestoX = 0
+            
+        if jogando:
+            if posicaoMaçaY > altura:
+                posicaoMaçaY = -240
+                posicaoMaçaX = random.randint(0,largura)
+                #velocidadeMissile = velocidadeMissile + 1
+                pontos = pontos + 1
+                pygame.mixer.Sound.play(missileSound)
+            else:
+                posicaoMaçaY =posicaoMaçaY + velocidadeMaça
+
+            if X + movimentoCestoX >0 and cestoX + movimentoCestoX< largura-larguraCesto:
+                cestoX = cestoX + movimentoCestoX
+            gameDisplay.fill(branco)
+            gameDisplay.blit(fundo,(0,0))
+            gameDisplay.blit(cesto, (cestoX,cestoY))
+            
+            gameDisplay.blit(maça, (posicaoMaçaX,posicaoMaçaY))
+            escreverTexto("Pontos: "+str(pontos))
+
+            pixelsXCesto = list(range(cestoX, cestoX+larguraCesto))
+            pixelsY = list(range(cestoY, cestoY+alturaCesto))
+
+            pixelXMaça = list(range(posicaoMaçaX, posicaoMaçaX+larguraMaça))
+            pixelYMaça = list(range(posicaoMaçaY, posicaoMaçaY+alturaMaça))
+
+            colisaoY = len(list(set(pixelYMaça) & set(pixelsYMaça) ))
+            if colisaoY > 0:
+                colisaoX = len(list(set(pixelXMaça) & set(pixelsXCesto) ))
+                print(colisaoX)
+                if colisaoX > 45:
+                    morreu()
+                    jogando=False
+                    pygame.mixer.music.stop()
+                    pygame.mixer.Sound.play(explosaoSound)
+
+
+        pygameDisplay.update()
+        clock.tick(60)
+
+jogar()
