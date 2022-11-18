@@ -13,9 +13,9 @@ gameDisplay = pygame.display.set_mode(tamanho)
 clock = pygame.time.Clock()
 gameEvents = pygame.event
 branco = (255,255,255)
-fundo = pygame.image.load("adedeços/fundo.jpeg")
-cesto = pygame.image.load("adedeços/cesto.png")
-maça = pygame.image.load("adedeços/maça.png")
+fundo = pygame.image.load("adedeços/fundo.jpg")
+cesto = pygame.image.load("adedeços/cesto.jpg")
+maça = pygame.image.load("adedeços/maça.jpg")
 
 
 
