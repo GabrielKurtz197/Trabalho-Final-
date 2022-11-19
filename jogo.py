@@ -1,9 +1,9 @@
 import pygame
-import time
 import random
+import time
 pygame.init()
 pygameDisplay = pygame.display
-pygameDisplay.set_caption("Jogo da Maça")
+pygameDisplay.set_caption("Cancele a Física ")
 altura = 520
 largura = 1000
 tamanho = (largura, altura)
@@ -12,8 +12,8 @@ clock = pygame.time.Clock()
 gameEvents = pygame.event
 branco = (255,255,255)
 fundo = pygame.image.load("assets/fundo.jpg")
-cesto = pygame.image.load("assets/cesto.jpg")
-maça = pygame.image.load("assets/maça.jpg")
+newton = pygame.image.load("assets/ironLarge.png")
+maça = pygame.image.load("assets/maça.png")
 
 
 
@@ -35,27 +35,27 @@ def morreu():
 
 def jogar():
     jogando = True
-    cestoX = 500
-    cestoY = 400
-    movimentoCestoX = 0
-    larguraCesto = 120
-    alturaCesto = 110
+    newtonX = 500
+    newtonY = 400
+    movimentoNewtonX = 0
+    larguraNewton = 120
+    alturaNewton = 110
     alturaMaça = 250
     larguraMaça = 50
     posicaoMaçaX = 400
     posicaoMaçaY = -240
     velocidadeMaça = 1
     pontos = 0
-    pygame.mixer.music.load("assets/ironSound.mp3")
+    pygame.mixer.music.load("assets/musicafundo.mp3")
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(-1)
 
-    missileSound = pygame.mixer.Sound("assets/missile.wav")
-    missileSound.set_volume(1)
-    pygame.mixer.Sound.play(missileSound)
+    maçaSound = pygame.mixer.Sound("assets/sommaça.mp3")
+    maçaSound.set_volume(1)
+    pygame.mixer.Sound.play(maçaSound)
 
-    explosaoSound = pygame.mixer.Sound("assets/explosao.wav")
-    explosaoSound.set_volume(1)
+    batida = pygame.mixer.Sound("assets/batida.mp3")
+    batida.set_volume(1)
     while True:
         for event in gameEvents.get():
             if event.type == pygame.QUIT:
@@ -63,51 +63,52 @@ def jogar():
                 quit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    movimentoCestoX = -15
+                    movimentoNewtonX = -15
                 elif event.key == pygame.K_RIGHT:
-                    movimentoCestoX = 15
+                    movimentoNewtonX = 15
                 elif event.key == pygame.K_RETURN:
                     jogar()
             elif event.type == pygame.KEYUP:
-                movimentoCestoX = 0
+                movimentoNewtonX = 0
             
         if jogando:
             if posicaoMaçaY > altura:
                 posicaoMaçaY = -240
                 posicaoMaçaX = random.randint(0,largura)
-                #velocidadeMissile = velocidadeMissile + 1
+                #velocidadeMaça = velocidadeMaça + 1
                 pontos = pontos + 1
-                pygame.mixer.Sound.play(missileSound)
+                pygame.mixer.Sound.play(maçaSound)
             else:
                 posicaoMaçaY =posicaoMaçaY + velocidadeMaça
 
-            if cestoX + movimentoCestoX >0 and cestoX + movimentoCestoX< largura-larguraCesto:
-                cestoX = cestoX + movimentoCestoX
+            if newtonX + movimentoNewtonX >0 and newtonX + movimentoNewtonX< largura-larguraNewton:
+                newtonX = newtonX + movimentoNewtonX
             gameDisplay.fill(branco)
             gameDisplay.blit(fundo,(0,0))
-            gameDisplay.blit(cesto, (cestoX,cestoY))
+            gameDisplay.blit(newton, (newtonX,newtonY))
             
             gameDisplay.blit(maça, (posicaoMaçaX,posicaoMaçaY))
             escreverTexto("Pontos: "+str(pontos))
 
-            pixelsXCesto = list(range(cestoX, cestoX+larguraCesto))
-            pixelsY = list(range(cestoY, cestoY+alturaCesto))
+            pixelsXNewton = list(range(newtonX, newtonX+larguraNewton))
+            pixelsYNewton = list(range(newtonY, newtonY+alturaNewton))
 
             pixelXMaça = list(range(posicaoMaçaX, posicaoMaçaX+larguraMaça))
-            pixelYMaça = list(range(posicaoMaçaY, posicaoMaçaY+alturaMaça))
+            pixelYmaça = list(range(posicaoMaçaY, posicaoMaçaY+alturaMaça))
 
-            colisaoY = len(list(set(pixelYMaça) & set(pixelsYMaça) ))
+            colisaoY = len(list(set(pixelYmaça) & set(pixelsYNewton) ))
             if colisaoY > 0:
-                colisaoX = len(list(set(pixelXMaça) & set(pixelsXCesto) ))
+                colisaoX = len(list(set(pixelXMaça) & set(pixelsXNewton) ))
                 print(colisaoX)
                 if colisaoX > 45:
                     morreu()
                     jogando=False
                     pygame.mixer.music.stop()
-                    pygame.mixer.Sound.play(explosaoSound)
+                    pygame.mixer.Sound.play(batida)
 
 
         pygameDisplay.update()
         clock.tick(60)
 
 jogar()
+
