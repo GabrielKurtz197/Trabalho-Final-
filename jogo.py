@@ -4,15 +4,15 @@ import time
 pygame.init()
 pygameDisplay = pygame.display
 pygameDisplay.set_caption("Cancele a Física ")
-altura = 520
-largura = 1000
+altura = 566
+largura = 1080
 tamanho = (largura, altura)
 gameDisplay = pygame.display.set_mode(tamanho)
 clock = pygame.time.Clock()
 gameEvents = pygame.event
 branco = (255,255,255)
 fundo = pygame.image.load("assets/fundo.jpg")
-newton = pygame.image.load("assets/ironLarge.png")
+newton = pygame.image.load("assets/newton.png")
 maça = pygame.image.load("assets/maça.png")
 
 
@@ -27,7 +27,7 @@ def escreverTexto (texto):
 def morreu():
     fonte  = pygame.font.Font("freesansbold.ttf",95)
     fonte2  = pygame.font.Font("freesansbold.ttf",45)
-    textoDisplay = fonte.render("MORREUU !!!!",True,branco)
+    textoDisplay = fonte.render("A Física Jamais será derrotada !!",True,branco)
     textoDisplay2 = fonte2.render("press enter to continue !!!!",True,branco)
     gameDisplay.blit(textoDisplay, (150,150))
     gameDisplay.blit(textoDisplay2, (150,350))
